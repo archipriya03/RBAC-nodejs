@@ -1,5 +1,5 @@
 const express =require("express");
-const dotenv =require("dotenv").config();
+require("dotenv").config();
 const dbConnect=require("./config/dbConnect");
 const authRoutes=require("./routes/authRoutes");
 const userRoutes=require("./routes/userRoutes");
@@ -8,6 +8,14 @@ const app = express();
 dbConnect();
 //middleware
 app.use(express.json());
+
+
+
+app.get("/", (req, res) => {
+    res.send("RBAC API is running...");
+});
+
+
 
 //routes
 app.use("/api/auth",authRoutes);
