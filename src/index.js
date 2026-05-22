@@ -1,31 +1,13 @@
-const express =require("express");
+const express = require("express");
 require("dotenv").config();
-const dbConnect=require("./config/dbConnect");
-const authRoutes=require("./routes/authRoutes");
-const userRoutes=require("./routes/userRoutes");
+const dbConnect = require("./config/dbConnect");
+const authRoutes = require("./routes/authRoutes");
+const userRoutes = require("./routes/userRoutes");
 
 const app = express();
 dbConnect();
-//middleware
+
 app.use(express.json());
-
-
-
-app.get("/", (req, res) => {
-    res.send("RBAC API is running...");
-});
-
-
-
-//routes
-app.use("/api/auth",authRoutes);
-app.use("/api/users",userRoutes);
-//start the server
-const PORT=process.env.PORT || 7002; //PROCESS IS USED TO GET THE VALUE FROM ENV FILE AND IF 7001 is not avilable the 7002 
-
-
-
-
 
 app.get("/", (req, res) => {
   res.send(`
@@ -46,8 +28,7 @@ app.get("/", (req, res) => {
     .subtitle { color: #64748b; font-size: 1rem; }
     .section { margin-bottom: 32px; }
     .section-title { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.15em; color: #f59e0b; margin-bottom: 16px; }
-    .endpoint { background: #111827; border: 1px solid #1e293b; border-radius: 10px; padding: 18px 22px; margin-bottom: 12px; display: flex; align-items: flex-start; gap: 16px; transition: border-color 0.2s; }
-    .endpoint:hover { border-color: #334155; }
+    .endpoint { background: #111827; border: 1px solid #1e293b; border-radius: 10px; padding: 18px 22px; margin-bottom: 12px; display: flex; align-items: flex-start; gap: 16px; }
     .method { padding: 4px 10px; border-radius: 6px; font-size: 0.72rem; font-weight: 700; font-family: monospace; min-width: 52px; text-align: center; }
     .post { background: rgba(59,130,246,0.15); color: #60a5fa; border: 1px solid rgba(59,130,246,0.25); }
     .get  { background: rgba(74,222,128,0.12); color: #4ade80; border: 1px solid rgba(74,222,128,0.25); }
@@ -76,7 +57,6 @@ app.get("/", (req, res) => {
         <span>Node.js</span><span>Express</span><span>MongoDB</span><span>JWT</span><span>bcrypt</span>
       </div>
     </div>
-
     <div class="section">
       <div class="section-title">Authentication</div>
       <div class="endpoint">
@@ -95,7 +75,6 @@ app.get("/", (req, res) => {
         </div>
       </div>
     </div>
-
     <div class="section">
       <div class="section-title">Protected Routes</div>
       <div class="endpoint">
@@ -123,7 +102,6 @@ app.get("/", (req, res) => {
         </div>
       </div>
     </div>
-
     <div class="footer">
       Built by <a href="https://github.com/archipriya03" target="_blank">Archi Priya</a> · 
       <a href="https://github.com/archipriya03/RBAC-nodejs" target="_blank">GitHub Repo</a>
@@ -134,9 +112,10 @@ app.get("/", (req, res) => {
   `);
 });
 
+app.use("/api/auth", authRoutes);
+app.use("/api/users", userRoutes);
 
-
-app.listen(PORT,()=>
-{ 
-    console.log(`server is running at port ${PORT}`);
+const PORT = process.env.PORT || 7002;
+app.listen(PORT, () => {
+  console.log(`server is running at port ${PORT}`);
 });
